@@ -11,6 +11,7 @@ K8s:
 - pod
 - deployment
 - service
+- HPA
 - namespace
 
 * [ ] 02
