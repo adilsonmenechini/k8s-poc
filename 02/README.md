@@ -103,6 +103,7 @@ Overview
 - O segundo é ativado às 0 horas de cada dia, e ajusta o número mínimo de réplicas para 1 e o número máximo de réplicas para 5.
 
 ```
+spec:
   horizontalPodAutoscalerSchedule:
     - schedule: '*/5 * * * *'
       minReplicas: 5
@@ -116,16 +117,16 @@ Overview
 ### External Metrics
 
 ```
-   - type: External
-     external:
-       metric:
-         name: timeshift(sum:azure.servicebus_namespaces.incoming_messages{name:example-sbus-prod-brazilsouth,entityname:promax_example} by {entityname}.as_count(), -300)
-         selector:
-           matchLabels:
-             app: teste
-       target:
-         type: AverageValue
-         averageValue: 1000
+- type: External
+  external:
+    metric:
+      name: timeshift(sum:azure.servicebus_namespaces.incoming_messages{name:example-sbus-prod-brazilsouth,entityname:promax_example} by {entityname}.as_count(), -300)
+      selector:
+        matchLabels:
+          app: teste
+    target:
+      type: AverageValue
+      averageValue: 1000
 ```
 
 ## Overview
