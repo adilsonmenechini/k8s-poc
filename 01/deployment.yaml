@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: poc-nignx
+  name: poc-nignx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poc-nignx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: poc-nignx
+    spec:
+      containers:
+      - image: nignx
+        name: nignx
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}

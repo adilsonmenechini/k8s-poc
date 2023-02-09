@@ -11,7 +11,7 @@ K8s:
 - pod
 - deployment
 - service
-- ingress
+- namespace
 
 * [ ] 02
 - cronjob
