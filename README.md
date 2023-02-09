@@ -19,14 +19,18 @@ k3d:
 ---
 02:
 - cronjob
-- HPA cpu/men
-- HPA external metrics
+- HPA 
+    - cpu/men
+    - external metrics
 
 ---	  
   
 Helm:
-* [ ] 01
-* [ ] 02 
+* [ ] Metrics
+* [ ] Deploy
+    - Deployment
+    - CronJob
+    - Environment(dev/stg/prd) 
 ---
 Monitoramento:
 
