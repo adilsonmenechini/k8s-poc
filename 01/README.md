@@ -119,7 +119,7 @@ endpoints/poc-nginx   10.1.0.16:80   9s
 ## HPA
 
 ```
-❯ kubectl autoscale deployment poc-nginx  --min=1 --max=4 -n ns-poc --dry-run=client -oyaml
+❯ kubectl autoscale deployment poc-nginx  --min=1 --max=4 --cpu-percent=80  -n ns-poc --dry-run=client -oyaml
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
