@@ -3,8 +3,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: poc-nignx
-  name: poc-nignx
+    app: poc-nginx
+  name: poc-nginx
 spec:
   ports:
   - name: 8080-80
@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: poc-nignx
+    app: poc-nginx
   type: ClusterIP
 status:
   loadBalancer: {}

@@ -2,18 +2,18 @@
 
 ## Pod
 ```
-❯ kubectl run --image nignx poc-nignx -l app=poc-nignx --port=80 --dry-run=client  -oyaml
+❯ kubectl run --image nginx poc-nginx -l app=poc-nginx --port=80 --dry-run=client  -oyaml
 apiVersion: v1
 kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    app: poc-nignx
-  name: poc-nignx
+    app: poc-nginx
+  name: poc-nginx
 spec:
   containers:
-  - image: nignx
-    name: poc-nignx
+  - image: nginx
+    name: poc-nginx
     ports:
     - containerPort: 80
     resources: {}
@@ -26,29 +26,29 @@ status: {}
 
 ## Deployment
 ```
-❯ kubectl create deployment --image nignx poc-nignx  --port=80 --dry-run=client  -oyaml
+❯ kubectl create deployment --image nginx poc-nginx  --port=80 --dry-run=client  -oyaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: poc-nignx
-  name: poc-nignx
+    app: poc-nginx
+  name: poc-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poc-nignx
+      app: poc-nginx
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: poc-nignx
+        app: poc-nginx
     spec:
       containers:
-      - image: nignx
-        name: nignx
+      - image: nginx
+        name: nginx
         ports:
         - containerPort: 80
         resources: {}
@@ -58,14 +58,14 @@ status: {}
 
 ## Service
 ```
-❯ kubectl create service clusterip poc-nignx  --tcp=8080:80 --dry-run=client -oyaml
+❯ kubectl create service clusterip poc-nginx  --tcp=8080:80 --dry-run=client -oyaml
 apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: poc-nignx
-  name: poc-nignx
+    app: poc-nginx
+  name: poc-nginx
 spec:
   ports:
   - name: 8080-80
@@ -73,7 +73,7 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: poc-nignx
+    app: poc-nginx
   type: ClusterIP
 status:
   loadBalancer: {}
@@ -91,4 +91,27 @@ metadata:
 spec: {}
 status: {}
 
+```
+
+## Overview
+
+```
+❯ kubectl apply -f namespace.yaml
+namespace/ns-poc created
+❯ kubectl apply -f deployment.yaml -n ns-poc
+deployment.apps/poc-nginx created
+❯ kubectl apply -f service.yaml -n ns-poc
+service/poc-nginx created
+❯ kubectl get pod,deploy,service,ep -n ns-poc
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/poc-nginx-7448cf46cc-4gsdb   1/1     Running   0          16s
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/poc-nginx   1/1     1            1           16s
+
+NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   9s
+
+NAME                  ENDPOINTS      AGE
+endpoints/poc-nginx   10.1.0.16:80   9s
 ```

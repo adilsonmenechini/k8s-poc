@@ -3,23 +3,23 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: poc-nignx
-  name: poc-nignx
+    app: poc-nginx
+  name: poc-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poc-nignx
+      app: poc-nginx
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: poc-nignx
+        app: poc-nginx
     spec:
       containers:
-      - image: nignx
-        name: nignx
+      - image: nginx
+        name: nginx
         ports:
         - containerPort: 80
         resources: {}
