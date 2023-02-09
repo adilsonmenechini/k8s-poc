@@ -110,6 +110,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: poc-nginx
+  targetCPUUtilizationPercentage: 80
 status:
   currentReplicas: 0
   desiredReplicas: 0
