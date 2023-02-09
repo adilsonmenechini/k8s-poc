@@ -1,4 +1,5 @@
-#
+# 01 Exemplo
+
 ## Pod
 ```
 ❯ kubectl run --image nignx poc-nignx -l app=poc-nignx --port=80 --dry-run=client  -oyaml
@@ -25,7 +26,7 @@ status: {}
 
 ## Deployment
 ```
-kubectl create deployment --image nignx poc-nignx  --port=80 --dry-run=client  -oyaml
+❯ kubectl create deployment --image nignx poc-nignx  --port=80 --dry-run=client  -oyaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
