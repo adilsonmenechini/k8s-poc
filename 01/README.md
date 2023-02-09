@@ -115,3 +115,24 @@ service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   9s
 NAME                  ENDPOINTS      AGE
 endpoints/poc-nginx   10.1.0.16:80   9s
 ```
+
+## HPA
+
+```
+❯ kubectl autoscale deployment poc-nginx  --min=1 --max=4 -n ns-poc --dry-run=client -oyaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  name: poc-nginx
+spec:
+  maxReplicas: 4
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: poc-nginx
+status:
+  currentReplicas: 0
+  desiredReplicas: 0
+```
