@@ -93,28 +93,6 @@ status: {}
 
 ```
 
-## Overview
-
-```
-❯ kubectl apply -f namespace.yaml
-namespace/ns-poc created
-❯ kubectl apply -f deployment.yaml -n ns-poc
-deployment.apps/poc-nginx created
-❯ kubectl apply -f service.yaml -n ns-poc
-service/poc-nginx created
-❯ kubectl get pod,deploy,service,ep -n ns-poc
-NAME                             READY   STATUS    RESTARTS   AGE
-pod/poc-nginx-7448cf46cc-4gsdb   1/1     Running   0          16s
-
-NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/poc-nginx   1/1     1            1           16s
-
-NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   9s
-
-NAME                  ENDPOINTS      AGE
-endpoints/poc-nginx   10.1.0.16:80   9s
-```
 
 ## HPA
 
@@ -135,4 +113,32 @@ spec:
 status:
   currentReplicas: 0
   desiredReplicas: 0
+```
+
+## Overview
+
+```
+❯ kubectl apply -f namespace.yaml
+namespace/ns-poc created
+❯ kubectl apply -f deployment.yaml -n ns-poc
+deployment.apps/poc-nginx created
+❯ kubectl apply -f service.yaml -n ns-poc
+service/poc-nginx created
+❯ kubectl apply -f 01/hpa.yaml -n ns-poc
+horizontalpodautoscaler.autoscaling/poc-nginx created
+❯ kubectl get pod,deploy,service,ep,hpa -n ns-poc
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/poc-nginx-7448cf46cc-4gsdb   1/1     Running   0          38m
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/poc-nginx   1/1     1            1           38m
+
+NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   38m
+
+NAME                  ENDPOINTS      AGE
+endpoints/poc-nginx   10.1.0.16:80   38m
+
+NAME                                            REFERENCE              TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   <unknown>/80%   1         4         0          42s
 ```
