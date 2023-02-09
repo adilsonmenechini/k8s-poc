@@ -52,13 +52,15 @@ spec:
   - type: Resource
     resource:
       name: cpu
-      # Porcentagem
-      targetAverageUtilization: 80
+      target:
+        type: Utilization
+        averageUtilization: 90 #Porcentagem
   - type: Resource
     resource:
       name: memory
-      # Media 
-      targetAverageValue: 200Mi
+      target:
+        type: Utilization
+        averageValue: 200Mi #Media
 
 ```
 ### behavior 
@@ -111,6 +113,20 @@ Overview
 ```
 
 
+### External Metrics
+
+```
+   - type: External
+     external:
+       metric:
+         name: timeshift(sum:azure.servicebus_namespaces.incoming_messages{name:example-sbus-prod-brazilsouth,entityname:promax_example} by {entityname}.as_count(), -300)
+         selector:
+           matchLabels:
+             app: teste
+       target:
+         type: AverageValue
+         averageValue: 1000
+```
 
 ## Overview
 
@@ -121,21 +137,21 @@ namespace/ns-poc created
 deployment.apps/poc-nginx created
 ❯ kubectl apply -f service.yaml -n ns-poc
 service/poc-nginx created
-❯ kubectl apply -f 01/hpa.yaml -n ns-poc
+❯ kubectl apply -f hpa.yaml -n ns-poc
 horizontalpodautoscaler.autoscaling/poc-nginx created
 ❯ kubectl get pod,deploy,service,ep,hpa -n ns-poc
 NAME                             READY   STATUS    RESTARTS   AGE
-pod/poc-nginx-7448cf46cc-4gsdb   1/1     Running   0          38m
+pod/poc-nginx-7cb6f64f96-pmh6x   1/1     Running   0          4m43s
 
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/poc-nginx   1/1     1            1           38m
+deployment.apps/poc-nginx   1/1     1            1           114m
 
 NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   38m
+service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   114m
 
 NAME                  ENDPOINTS      AGE
-endpoints/poc-nginx   10.1.0.16:80   38m
+endpoints/poc-nginx   10.1.0.17:80   114m
 
-NAME                                            REFERENCE              TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
-horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   <unknown>/80%   1         4         0          42s
+NAME                                            REFERENCE              TARGETS                          MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   <unknown>/200Mi, <unknown>/90%   1         4         1          76m
 ```
