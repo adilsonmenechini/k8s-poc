@@ -132,6 +132,7 @@ spec:
 ## Overview
 
 ```
+❯ kubectl apply -f metrics-server.yaml
 ❯ kubectl apply -f namespace.yaml
 namespace/ns-poc created
 ❯ kubectl apply -f deployment.yaml -n ns-poc
@@ -142,17 +143,18 @@ service/poc-nginx created
 horizontalpodautoscaler.autoscaling/poc-nginx created
 ❯ kubectl get pod,deploy,service,ep,hpa -n ns-poc
 NAME                             READY   STATUS    RESTARTS   AGE
-pod/poc-nginx-7cb6f64f96-pmh6x   1/1     Running   0          4m43s
+pod/poc-nginx                    1/1     Running   0          22m
+pod/poc-nginx-7cb6f64f96-gnf9q   1/1     Running   0          22m
 
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/poc-nginx   1/1     1            1           114m
+deployment.apps/poc-nginx   1/1     1            1           22m
 
-NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/poc-nginx   ClusterIP   10.105.248.147   <none>        8080/TCP   114m
+NAME                TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+service/poc-nginx   ClusterIP   10.96.138.18   <none>        8080/TCP   22m
 
-NAME                  ENDPOINTS      AGE
-endpoints/poc-nginx   10.1.0.17:80   114m
+NAME                  ENDPOINTS                   AGE
+endpoints/poc-nginx   10.1.0.29:80,10.1.0.30:80   22m
 
-NAME                                            REFERENCE              TARGETS                          MINPODS   MAXPODS   REPLICAS   AGE
-horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   <unknown>/200Mi, <unknown>/90%   1         4         1          76m
+NAME                                            REFERENCE              TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   1998848/200Mi, <unknown>/90%   1         4         1          22m
 ```
