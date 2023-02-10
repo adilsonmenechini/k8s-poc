@@ -1,0 +1,60 @@
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "helm-templates.fullname" . }}
+  labels:
+    {{- include "helm-templates.labels" . | nindent 4 }}
+spec:
+  schedule: ""
+  concurrencyPolicy: Allow
+  startingDeadlineSeconds: 100
+  suspend: false
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "helm-templates.selectorLabels" . | nindent 12 }}
+        spec:
+          {{- with .Values.CronJob.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          serviceAccountName: {{ include "helm-templates.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.CronJob.podSecurityContext | nindent 8 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.CronJob.securityContext | nindent 12 }}
+              image: "{{ .Values.CronJob.image.repository }}:{{ .Values.CronJob.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.CronJob.image.pullPolicy }}
+              ports:
+                - name: http
+                  containerPort: {{ .Values.CronJob.service.port }}
+                  protocol: TCP
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: http
+              resources:
+                {{- toYaml .Values.CronJob.resources | nindent 12 }}
+          {{- with .Values.CronJob.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.CronJob.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.CronJob.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}

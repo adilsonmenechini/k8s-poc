@@ -26,8 +26,7 @@ k3d:
 ---	  
   
 Helm:
-* [ ] Metrics
-* [ ] Deploy
+- Deploy
     - Deployment
     - CronJob
     - Environment(dev/stg/prd) 

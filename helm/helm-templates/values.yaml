@@ -1,4 +1,4 @@
-# Default values for poc-helm.
+# Default values for helm-templates.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
