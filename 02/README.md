@@ -156,5 +156,5 @@ NAME                  ENDPOINTS                   AGE
 endpoints/poc-nginx   10.1.0.29:80,10.1.0.30:80   22m
 
 NAME                                            REFERENCE              TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
-horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   1998848/200Mi, <unknown>/90%   1         4         1          22m
+horizontalpodautoscaler.autoscaling/poc-nginx   Deployment/poc-nginx   1998848/200Mi, 0%/90%   1         4         1          22m
 ```

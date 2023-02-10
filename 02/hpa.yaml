@@ -1,7 +1,6 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  creationTimestamp: null
   name: poc-nginx
 spec:
   maxReplicas: 4
